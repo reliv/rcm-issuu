@@ -57,7 +57,7 @@ class DocumentListControllerFactory implements FactoryInterface
         $api = $serviceLocator->get('RcmIssuu\Service\IssuuApi');
 
         /** @var \Rcm\Entity\Site $currentSite */
-        $currentSite = $serviceLocator->get('Rcm\Service\CurrentSite');
+        $currentSite = $serviceLocator->get(\Rcm\Service\CurrentSite::class);
 
         return new DocumentListController($api, $currentSite);
     }
