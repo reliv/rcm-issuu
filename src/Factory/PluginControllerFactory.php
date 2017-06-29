@@ -1,26 +1,10 @@
 <?php
-/**
- * Service Factory for the Plugin Controller
- *
- * This file contains the factory needed to generate a Plugin Controller.
- *
- * PHP version 5.3
- *
- * LICENSE: BSD
- *
- * @category  Reliv
- * @package   RcmPlugins
- * @author    Westin Shafer <wshafer@relivinc.com>
- * @copyright 2014 Reliv International
- * @license   License.txt New BSD License
- * @version   GIT: <git_id>
- * @link      https://github.com/reliv
- */
+
 namespace RcmIssuu\Factory;
 
+use Interop\Container\ContainerInterface;
 use Rcm\Plugin\BaseController;
-use RcmIssuu\Controller\PluginController;
-use Zend\ServiceManager\FactoryInterface;
+use Zend\Mvc\Controller\ControllerManager;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
@@ -37,19 +21,23 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  * @link      https://github.com/reliv
  *
  */
-class PluginControllerFactory implements FactoryInterface
+class PluginControllerFactory
 {
     /**
-     * Create Service
+     * __invoke
      *
-     * @param ServiceLocatorInterface $controllerManager Zend Controller Manager
+     * @param $container ContainerInterface|ServiceLocatorInterface|ControllerManager
      *
-     * @return PluginController
+     * @return BaseController
      */
-    public function createService(ServiceLocatorInterface $controllerManager)
+    public function __invoke($container)
     {
+        // @BC for ZendFramework
+        if ($container instanceof ControllerManager) {
+            $container = $container->getServiceLocator();
+        }
         /** @var \Zend\ServiceManager\ServiceLocatorInterface $serviceLocator */
-        $serviceLocator = $controllerManager->getServiceLocator();
+        $serviceLocator = $container->getServiceLocator();
 
         return new BaseController(
             $serviceLocator->get('config'),
