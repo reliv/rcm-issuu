@@ -16,40 +16,7 @@
  * @license   License.txt New BSD License
  * @version   GIT: <git_id>
  */
-
 return [
-
-    'rcmPlugin' => [
-        'RcmIssuu' => [
-            'type' => 'Common',
-            'display' => 'Issuu',
-            'tooltip' => 'Embed an Issuu document',
-            'icon' => '',
-            'editJs' => '/modules/rcm-issuu/edit.js',
-            'canCache' => false
-        ],
-    ],
-    'router' => array(
-        'routes' => array(
-            'issuuRest' => array(
-                'type' => 'Segment',
-                'options' => array(
-                    'route' => '/issuu/:username/:id',
-                    'defaults' => array(
-                        'controller' => 'RcmIssuu\Controller\DocumentListController',
-                    ),
-                ),
-            ),
-        ),
-    ),
-    'view_manager' => [
-        'template_path_stack' => [
-            __DIR__ . '/../view',
-        ],
-        'strategies' => [
-            'ViewJsonStrategy',
-        ],
-    ],
     'asset_manager' => [
         'resolver_configs' => [
             'aliases' => [
@@ -74,15 +41,46 @@ return [
             ],
         ],
     ],
-    'service_manager' => [
-        'invokables' => [
-            'RcmIssuu\Service\IssuuApi' => 'RcmIssuu\Service\IssuuApi',
-        ]
-    ],
     'controllers' => [
         'factories' => [
-            'RcmIssuu' => '\RcmIssuu\Factory\PluginControllerFactory',
-            'RcmIssuu\Controller\DocumentListController' => '\RcmIssuu\Factory\DocumentListControllerFactory',
+            'RcmIssuu' => \RcmIssuu\Factory\PluginControllerFactory::class,
+            \RcmIssuu\Controller\DocumentListController::class => \RcmIssuu\Factory\DocumentListControllerFactory::class,
+        ],
+    ],
+    'rcmPlugin' => [
+        'RcmIssuu' => [
+            'type' => 'Common',
+            'display' => 'Issuu',
+            'tooltip' => 'Embed an Issuu document',
+            'icon' => '',
+            'editJs' => '/modules/rcm-issuu/edit.js',
+            'canCache' => false
+        ],
+    ],
+    'router' => array(
+        'routes' => array(
+            'issuuRest' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/issuu/:username/:id',
+                    'defaults' => array(
+                        'controller' => \RcmIssuu\Controller\DocumentListController::class,
+                    ),
+                ),
+            ),
+        ),
+    ),
+    'service_manager' => [
+        'invokables' => [
+            \RcmIssuu\Service\IssuuApi::class => \RcmIssuu\Service\IssuuApi::class,
+        ]
+    ],
+    'view_manager' => [
+        'template_path_stack' => [
+            __DIR__ . '/../view',
+        ],
+        'strategies' => [
+            'ViewJsonStrategy',
         ],
     ],
 ];
