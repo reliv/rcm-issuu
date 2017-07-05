@@ -36,12 +36,11 @@ class PluginControllerFactory
         if ($container instanceof ControllerManager) {
             $container = $container->getServiceLocator();
         }
-        /** @var \Zend\ServiceManager\ServiceLocatorInterface $serviceLocator */
-        $serviceLocator = $container->getServiceLocator();
 
         return new BaseController(
-            $serviceLocator->get('config'),
-            'RcmIssuu'
+            $container->get('config'),
+            'RcmIssuu',
+            $container
         );
     }
 }
